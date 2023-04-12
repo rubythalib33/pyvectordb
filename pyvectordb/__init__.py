@@ -1,3 +1,3 @@
-from .src.client import VectorDBClient
+from pyvectordb.client import VectorDBClient
 
 __version__ = '0.1.0'
