@@ -63,3 +63,19 @@ class VectorDBClient:
         response = self._send_request(request)
         labels = response.strip().split()
         return labels
+
+    def make_cluster(self, k:int) -> None:
+        request = f'MAKE_CLUSTER {self.token} {k}\n'
+        self._send_request(request)
+
+    def search_cluster(self, vector: Optional[Union[None, List[float], np.ndarray]], threshold: float, top_k: int) -> List[str]:
+        if vector is None:
+            raise ValueError('vector must not be None')
+        else:
+            if isinstance(vector, np.ndarray):
+                vector = vector.tolist()
+            vector_str = ' '.join(str(x) for x in vector)
+            request = f'SEARCH_CLUSTER {self.token} {vector_str} {threshold} {top_k}\n'
+        response = self._send_request(request)
+        labels = response.strip().split()
+        return labels
